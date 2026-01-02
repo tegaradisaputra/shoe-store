@@ -1,1 +1,3 @@
+<<<<<<< HEAD
 # shoe-store
+
