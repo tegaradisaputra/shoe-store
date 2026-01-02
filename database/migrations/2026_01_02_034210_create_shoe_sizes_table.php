@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('size');
 
-            // ERD | relasi antara tabel shoe_size ke tabel shoe
+            // relasi antara tabel shoe_size ke tabel shoe
             $table->foreignId('shoe_id')->constrained()->cascadeOnDelete();
             
             $table->softDeletes(); // deleted_at

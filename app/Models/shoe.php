@@ -2,9 +2,56 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
 
 class shoe extends Model
 {
     //
+    use HasFactory, softDeletes;
+
+    protected $fillable = [
+        'name', // air jordan
+        'slug', // domain.com/air-jordan
+        'thumbnail',
+        'about',
+        'price',
+        'stock',
+        'is_popular',
+        'category_id', // FK, foreign key
+        'brand_id',
+    ];
+
+    public function setNameAttribut($value)
+    {
+        $this->attributes['name'] = $value; // air jordan
+        $this->attributes['slug'] = Str::slug('slug'); // domain.com/air-jordan
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(ShoePhoto::class);
+    }
+
+    public function sizes(): HasMany
+    {
+        return $this->hasMany(ShoeSize::class);
+    }
 }

@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->text('about');
             $table->unsignedBigInteger('price'); //-1
-            $table->unsignedBigInteger('stok');
+            $table->unsignedBigInteger('stock');
             $table->boolean('is_popular'); // false true
             
-            // ERD | relasi antara tabel shoe ke tabel category dan brand
+            // relasi antara tabel shoe ke tabel category dan brand
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('brand_id')->nullable()->constrained()->cascadeOnDelete();
 

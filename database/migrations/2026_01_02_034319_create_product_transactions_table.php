@@ -32,7 +32,7 @@ return new class extends Migration
             
             $table->boolean('is_paid');
             
-            // ERD | relasi antara tabel product_transaction ke tabel shoe dan promo_code
+            // relasi antara tabel product_transaction ke tabel shoe dan promo_code
             $table->foreignId('shoe_id')->constrained()->cascadeOnDelete();
             $table->foreignId('promo_code_id')->nullable()->constrained()->cascadeOnDelete();
 
