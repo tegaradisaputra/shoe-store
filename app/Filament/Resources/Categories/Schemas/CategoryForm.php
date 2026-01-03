@@ -19,8 +19,7 @@ class CategoryForm
 
                 FileUpload::make('icon')
                 ->image()
-                ->required(255),
-
+                ->required(),
             ]);
     }
 }

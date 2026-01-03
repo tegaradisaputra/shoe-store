@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-class brand extends Model
+class Brand extends Model
 {
     //
-    use HasFactory, softDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'slug',
-        'logo ',
+        'logo',
     ];
 
     public function shoes(): HasMany
@@ -24,9 +24,9 @@ class brand extends Model
         return $this->hasMany(Shoe::class);
     }
 
-    public function setNameAttribut($value)
+    public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug('slug');
+        $this->attributes['slug'] = Str::slug($value);
     }
 }

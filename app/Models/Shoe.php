@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 
-class shoe extends Model
+class Shoe extends Model
 {
     //
-    use HasFactory, softDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name', // air jordan
@@ -28,10 +28,10 @@ class shoe extends Model
         'brand_id',
     ];
 
-    public function setNameAttribut($value)
+    public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value; // air jordan
-        $this->attributes['slug'] = Str::slug('slug'); // domain.com/air-jordan
+        $this->attributes['slug'] = Str::slug($value); // domain.com/air-jordan
     }
 
     public function brand(): BelongsTo

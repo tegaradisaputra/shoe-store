@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 
-class category extends Model
+class Category extends Model
 {
     //
-    use HasFactory, softDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -25,9 +25,9 @@ class category extends Model
         return $this->hasMany(Shoe::class);
     }
 
-    public function setNameAttribut($value)
+    public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug('slug');
+        $this->attributes['slug'] = Str::slug($value);
     }
 }

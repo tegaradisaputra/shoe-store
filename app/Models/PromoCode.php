@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class shoeSize extends Model
+class PromoCode extends Model
 {
     //
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'size',
-        'shoe_id',
+        'code',
+        'discount_amount',
     ];
 }
