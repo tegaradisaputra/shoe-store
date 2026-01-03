@@ -20,8 +20,6 @@ class PromoCodeForm
                 ->required()
                 ->numeric()
                 ->prefix('IDR'),
-
-
             ]);
     }
 }
