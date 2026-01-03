@@ -2,44 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerDataRequest;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\StorePaymentRequest;
+use App\Models\ProductTransaction;
 use App\Models\Shoe;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     //
-    public function saveOrder(Shoe $slug)
+    protected $orderService;
+
+    public function __construct(OrderService $orderService)
     {
-        return view('front.save_order');
+        $this->orderService = $orderService;
     }
 
-    public function booking(Shoe $slug)
+    public function saveOrder(StoreOrderRequest $request, Shoe $shoe)
     {
-        return view('front.booking');
+        $validated = $request->validated();
+        $validated['shoe_id'] = $shoe->id;
+        $this->orderService->beginOrder($validated);
+        return redirect()->route('front.booking', $shoe->slug);
     }
 
-    public function customerData(Shoe $slug)
+    public function booking()
     {
-        return view('front.customer_data');
+        $data = $this->orderService->getOrderDetails();
+        return view('order.booking', $data);
     }
 
-    public function saveCustomerData(Shoe $slug)
+    public function customerData(Shoe $shoe)
     {
-        return view('front.save_customer_data');
+        $data = $this->orderService->getOrderDetails();
+        return view('order.customer_data', $data);
     }
 
-    public function payment(Shoe $slug)
+    public function saveCustomerData(StoreCustomerDataRequest $request)
     {
+        $validated = $request->validated();
+        $this->orderService->updateCustomerBarang($validated);
         return view('front.payment');
     }
 
-    public function paymentConfirm(Shoe $slug)
+    public function payment(Shoe $shoe)
     {
-        return view('front.payment_confirm');
+        $data = $this->orderService->getOrderDetails();
+        return view('front.payment', $data);
     }
 
-    public function orderFinished(Shoe $slug)
+    public function paymentConfirm(StorePaymentRequest $request)
     {
-        return view('front.order_finished');
+        $validated = $request->validated();
+        $productTransactionId = $this->orderService->paymentConfirm($validated);
+
+        if($productTransactionId){
+            return redirect()->route('front.order_finished', $productTransactionId);
+        }
+        return redirect()->route('front.index')->withErrors(['error' => 'Payment failed. Please try again.']);
+    }
+
+    public function orderFinished(ProductTransaction $productTransaction)
+    {
+        dd($productTransaction);
     }
 }
